@@ -79,7 +79,7 @@ export default function Drivers() {
                 <th style={{ textAlign: "left", padding: "12px", fontWeight: "600" }}>ID</th>
                 <th style={{ textAlign: "left", padding: "12px", fontWeight: "600" }}>Name</th>
                 <th style={{ textAlign: "left", padding: "12px", fontWeight: "600" }}>Created At</th>
-              </td>
+              </tr>
             </thead>
             <tbody>
               {drivers.map((driver) => (
