@@ -36,9 +36,9 @@ export default function Dashboard() {
   return (
     <div style={{ padding: "2rem" }}>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "2rem" }}>
-        {/* Dashboard title - now dark and visible */}
+        {/* Dashboard title - WHITE color */}
         <h1 style={{ 
-          color: "#1e1e2f",     // Dark charcoal/navy - very visible
+          color: "#ffffff",     // White color
           fontSize: "2rem",
           fontWeight: "bold",
           margin: 0
