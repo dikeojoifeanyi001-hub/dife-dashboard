@@ -40,17 +40,21 @@ export default function Dashboard() {
         <button onClick={handleLogout} style={styles.logoutBtn}>Logout</button>
       </div>
       
-      <div style={styles.statsGrid}>
+      {/* Cards container - side by side horizontally */}
+      <div style={styles.statsContainer}>
+        {/* Card 1: Total Drivers */}
         <div style={styles.card}>
           <h3 style={styles.cardLabel}>Total Drivers</h3>
           <p style={styles.cardValue}>{stats.total_drivers}</p>
         </div>
         
+        {/* Card 2: Total Routes */}
         <div style={styles.card}>
           <h3 style={styles.cardLabel}>Total Routes</h3>
           <p style={styles.cardValue}>{stats.total_routes}</p>
         </div>
         
+        {/* Card 3: Avg Risk Score */}
         <div style={styles.card}>
           <h3 style={styles.cardLabel}>Avg Risk Score</h3>
           <p style={styles.cardValue}>{stats.avg_risk_score}</p>
@@ -70,24 +74,31 @@ const styles = {
     cursor: "pointer",
     fontSize: "1rem",
   },
-  statsGrid: {
-    display: "grid",
-    gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
-    gap: "1.5rem",
+  statsContainer: {
+    display: "flex",           // Forces horizontal layout
+    flexDirection: "row",     // Explicitly horizontal
+    justifyContent: "center", // Centers cards
+    gap: "1.5rem",           // Space between cards
+    flexWrap: "wrap",        // Wraps on mobile (responsive)
     marginTop: "1rem",
   },
   card: {
     backgroundColor: "#ffffff",
-    padding: "1.5rem",
+    padding: "1.5rem 2rem",
     borderRadius: "12px",
     boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
     textAlign: "center",
+    minWidth: "180px",        // Ensures cards have consistent width
+    flex: 1,                  // Makes cards equal width
+    maxWidth: "250px",        // Prevents cards from being too wide
   },
   cardLabel: {
-    fontSize: "1.2rem",
+    fontSize: "1rem",
     color: "#2c3e50",
     marginBottom: "0.75rem",
     fontWeight: "600",
+    textTransform: "uppercase",
+    letterSpacing: "1px",
   },
   cardValue: {
     fontSize: "3rem",
