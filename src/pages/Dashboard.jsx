@@ -61,7 +61,7 @@ export default function Dashboard() {
     <Layout>
       <div style={{ padding: "20px" }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "30px" }}>
-          <h1 style={{ margin: 0 }}>Dashboard</h1>
+          <h1 style={{ fontSize: "28px", margin: 0 }}>Dashboard</h1>
           <button onClick={handleLogout} style={{
             padding: "8px 16px",
             backgroundColor: "#dc3545",
@@ -74,23 +74,23 @@ export default function Dashboard() {
         
         <div style={{ display: "flex", gap: "20px", marginBottom: "30px", flexWrap: "wrap" }}>
           <div style={cardStyle}>
-            <h4 style={{ color: "#666", marginBottom: "12px" }}>Total Drivers</h4>
-            <p style={{ fontSize: "2rem", fontWeight: "bold", color: "#0d6efd", margin: 0 }}>{drivers.length}</p>
+            <h4 style={{ marginBottom: "8px", fontWeight: "600", color: "#666" }}>Total Drivers</h4>
+            <p style={{ fontSize: "22px", fontWeight: "bold", color: "#0d6efd", margin: 0 }}>{drivers.length}</p>
           </div>
           
           <div style={cardStyle}>
-            <h4 style={{ color: "#666", marginBottom: "12px" }}>Total Routes</h4>
-            <p style={{ fontSize: "2rem", fontWeight: "bold", color: "#0d6efd", margin: 0 }}>{routes.length}</p>
+            <h4 style={{ marginBottom: "8px", fontWeight: "600", color: "#666" }}>Total Routes</h4>
+            <p style={{ fontSize: "22px", fontWeight: "bold", color: "#0d6efd", margin: 0 }}>{routes.length}</p>
           </div>
           
           <div style={cardStyle}>
-            <h4 style={{ color: "#666", marginBottom: "12px" }}>High Risk Routes</h4>
-            <p style={{ fontSize: "2rem", fontWeight: "bold", color: "#dc3545", margin: 0 }}>{highRisk}</p>
+            <h4 style={{ marginBottom: "8px", fontWeight: "600", color: "#666" }}>High Risk Routes</h4>
+            <p style={{ fontSize: "22px", fontWeight: "bold", color: "#dc3545", margin: 0 }}>{highRisk}</p>
           </div>
           
           <div style={cardStyle}>
-            <h4 style={{ color: "#666", marginBottom: "12px" }}>Avg Risk Score</h4>
-            <p style={{ fontSize: "2rem", fontWeight: "bold", color: "#0d6efd", margin: 0 }}>{avgRisk.toFixed(1)}</p>
+            <h4 style={{ marginBottom: "8px", fontWeight: "600", color: "#666" }}>Avg Risk Score</h4>
+            <p style={{ fontSize: "22px", fontWeight: "bold", color: "#0d6efd", margin: 0 }}>{avgRisk.toFixed(1)}</p>
           </div>
         </div>
       </div>

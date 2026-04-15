@@ -41,7 +41,7 @@ export default function Drivers() {
   return (
     <Layout>
       <div style={{ padding: "20px" }}>
-        <h1 style={{ marginBottom: "30px" }}>Drivers</h1>
+        <h1 style={{ fontSize: "28px", marginBottom: "30px" }}>Drivers</h1>
         
         <form onSubmit={addDriver} style={{ display: "flex", gap: "10px", marginBottom: "30px" }}>
           <input
@@ -62,32 +62,36 @@ export default function Drivers() {
           }}>Add Driver</button>
         </form>
         
-        <table style={{
-          width: "100%",
-          background: "white",
-          borderRadius: "10px",
-          overflow: "hidden",
-          boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
-        }}>
-          <thead>
-            <tr style={{ background: "#f8f9fa" }}>
-              <th style={{ textAlign: "left", padding: "12px", fontWeight: "600" }}>ID</th>
-              <th style={{ textAlign: "left", padding: "12px", fontWeight: "600" }}>Name</th>
-              <th style={{ textAlign: "left", padding: "12px", fontWeight: "600" }}>Created At</th>
-            </tr>
-          </thead>
-          <tbody>
-            {drivers.map((driver, index) => (
-              <tr key={driver.id} style={{ borderTop: "1px solid #eee" }}>
-                <td style={{ padding: "12px" }}>{driver.id}</td>
-                <td style={{ padding: "12px" }}>{driver.name}</td>
-                <td style={{ padding: "12px" }}>{new Date(driver.created_at).toLocaleDateString()}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-        
-        {drivers.length === 0 && <p style={{ textAlign: "center", marginTop: "30px" }}>No drivers yet. Add your first driver above.</p>}
+        {drivers.length === 0 ? (
+          <p style={{ padding: "20px", color: "#666", textAlign: "center", background: "white", borderRadius: "8px" }}>
+            No drivers available yet. Add your first driver above.
+          </p>
+        ) : (
+          <table style={{
+            width: "100%",
+            background: "white",
+            borderRadius: "10px",
+            overflow: "hidden",
+            boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
+          }}>
+            <thead>
+              <tr style={{ background: "#f8f9fa" }}>
+                <th style={{ textAlign: "left", padding: "12px", fontWeight: "600" }}>ID</th>
+                <th style={{ textAlign: "left", padding: "12px", fontWeight: "600" }}>Name</th>
+                <th style={{ textAlign: "left", padding: "12px", fontWeight: "600" }}>Created At</th>
+              </td>
+            </thead>
+            <tbody>
+              {drivers.map((driver) => (
+                <tr key={driver.id} style={{ borderTop: "1px solid #eee" }}>
+                  <td style={{ padding: "12px" }}>{driver.id}</td>
+                  <td style={{ padding: "12px" }}>{driver.name}</td>
+                  <td style={{ padding: "12px" }}>{new Date(driver.created_at).toLocaleDateString()}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
       </div>
     </Layout>
   );
