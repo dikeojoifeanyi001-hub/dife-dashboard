@@ -6,12 +6,13 @@ export default function Sidebar() {
     textDecoration: "none",
     padding: "12px 16px",
     borderRadius: "8px",
-    transition: "background 0.2s",
+    transition: "all 0.2s",
     display: "block",
   };
 
   const activeStyle = {
-    backgroundColor: "#0d6efd",
+    backgroundColor: "#2f3640",
+    borderLeft: "3px solid #0d6efd",
   };
 
   return (
@@ -30,25 +31,25 @@ export default function Sidebar() {
           to="/dashboard" 
           style={({ isActive }) => ({ ...linkStyle, ...(isActive ? activeStyle : {}) })}
         >
-          Dashboard
+          📊 Dashboard
         </NavLink>
         <NavLink 
           to="/drivers" 
           style={({ isActive }) => ({ ...linkStyle, ...(isActive ? activeStyle : {}) })}
         >
-          Drivers
+          👥 Drivers
         </NavLink>
         <NavLink 
           to="/routes" 
           style={({ isActive }) => ({ ...linkStyle, ...(isActive ? activeStyle : {}) })}
         >
-          Routes
+          🗺️ Routes
         </NavLink>
         <NavLink 
           to="/risk" 
           style={({ isActive }) => ({ ...linkStyle, ...(isActive ? activeStyle : {}) })}
         >
-          Risk Monitor
+          ⚠️ Risk Monitor
         </NavLink>
       </nav>
     </div>

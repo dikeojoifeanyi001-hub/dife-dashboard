@@ -6,20 +6,25 @@ import Layout from "../components/Layout";
 
 export default function Dashboard() {
   const navigate = useNavigate();
-  const [stats, setStats] = useState({ total_drivers: 0, total_routes: 0, avg_risk_score: 0 });
+  const [drivers, setDrivers] = useState([]);
+  const [routes, setRoutes] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetchStats();
+    fetchData();
   }, []);
 
-  const fetchStats = async () => {
+  const fetchData = async () => {
     try {
-      const res = await API.get("/companies/stats");
-      setStats(res.data.data);
+      const [driversRes, routesRes] = await Promise.all([
+        API.get("/drivers"),
+        API.get("/routes")
+      ]);
+      setDrivers(driversRes.data.data || []);
+      setRoutes(routesRes.data.data || []);
     } catch (err) {
-      setError("Failed to load stats");
+      setError("Failed to load dashboard data");
       if (err.response?.status === 401) {
         logout();
         navigate("/");
@@ -34,23 +39,28 @@ export default function Dashboard() {
     navigate("/");
   };
 
+  const highRisk = routes.filter(r => r.risk_score > 70).length;
+  const avgRisk = routes.length > 0 
+    ? routes.reduce((sum, r) => sum + r.risk_score, 0) / routes.length 
+    : 0;
+
   const cardStyle = {
     background: "white",
     padding: "24px",
     borderRadius: "12px",
-    boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
+    boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
     flex: 1,
     minWidth: "180px",
     textAlign: "center",
   };
 
-  if (loading) return <Layout><div style={{ padding: "20px" }}>Loading...</div></Layout>;
+  if (loading) return <Layout><div style={{ padding: "20px" }}>Loading dashboard data...</div></Layout>;
   if (error) return <Layout><div style={{ padding: "20px", color: "red" }}>{error}</div></Layout>;
 
   return (
     <Layout>
-      <div>
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "24px" }}>
+      <div style={{ padding: "20px" }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "30px" }}>
           <h1 style={{ margin: 0 }}>Dashboard</h1>
           <button onClick={handleLogout} style={{
             padding: "8px 16px",
@@ -62,20 +72,25 @@ export default function Dashboard() {
           }}>Logout</button>
         </div>
         
-        <div style={{ display: "flex", gap: "20px", flexWrap: "wrap" }}>
+        <div style={{ display: "flex", gap: "20px", marginBottom: "30px", flexWrap: "wrap" }}>
           <div style={cardStyle}>
-            <h3 style={{ color: "#666", marginBottom: "12px" }}>Total Drivers</h3>
-            <p style={{ fontSize: "2.5rem", fontWeight: "bold", color: "#0d6efd", margin: 0 }}>{stats.total_drivers}</p>
+            <h4 style={{ color: "#666", marginBottom: "12px" }}>Total Drivers</h4>
+            <p style={{ fontSize: "2rem", fontWeight: "bold", color: "#0d6efd", margin: 0 }}>{drivers.length}</p>
           </div>
           
           <div style={cardStyle}>
-            <h3 style={{ color: "#666", marginBottom: "12px" }}>Total Routes</h3>
-            <p style={{ fontSize: "2.5rem", fontWeight: "bold", color: "#0d6efd", margin: 0 }}>{stats.total_routes}</p>
+            <h4 style={{ color: "#666", marginBottom: "12px" }}>Total Routes</h4>
+            <p style={{ fontSize: "2rem", fontWeight: "bold", color: "#0d6efd", margin: 0 }}>{routes.length}</p>
           </div>
           
           <div style={cardStyle}>
-            <h3 style={{ color: "#666", marginBottom: "12px" }}>Avg Risk Score</h3>
-            <p style={{ fontSize: "2.5rem", fontWeight: "bold", color: "#0d6efd", margin: 0 }}>{stats.avg_risk_score}</p>
+            <h4 style={{ color: "#666", marginBottom: "12px" }}>High Risk Routes</h4>
+            <p style={{ fontSize: "2rem", fontWeight: "bold", color: "#dc3545", margin: 0 }}>{highRisk}</p>
+          </div>
+          
+          <div style={cardStyle}>
+            <h4 style={{ color: "#666", marginBottom: "12px" }}>Avg Risk Score</h4>
+            <p style={{ fontSize: "2rem", fontWeight: "bold", color: "#0d6efd", margin: 0 }}>{avgRisk.toFixed(1)}</p>
           </div>
         </div>
       </div>

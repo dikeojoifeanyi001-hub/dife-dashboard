@@ -2,6 +2,18 @@ import { useEffect, useState } from "react";
 import API from "../services/api";
 import Layout from "../components/Layout";
 
+function getRiskColor(score) {
+  if (score > 70) return "#dc3545";
+  if (score > 40) return "#fd7e14";
+  return "#28a745";
+}
+
+function getRiskLabel(score) {
+  if (score > 70) return "High";
+  if (score > 40) return "Medium";
+  return "Low";
+}
+
 export default function Routes() {
   const [routes, setRoutes] = useState([]);
   const [drivers, setDrivers] = useState([]);
@@ -17,7 +29,7 @@ export default function Routes() {
   const fetchRoutes = async () => {
     try {
       const res = await API.get("/routes");
-      setRoutes(res.data.data);
+      setRoutes(res.data.data || []);
     } catch (err) {
       setError("Failed to load routes");
     } finally {
@@ -28,7 +40,7 @@ export default function Routes() {
   const fetchDrivers = async () => {
     try {
       const res = await API.get("/drivers");
-      setDrivers(res.data.data);
+      setDrivers(res.data.data || []);
     } catch (err) {
       console.error(err);
     }
@@ -50,53 +62,20 @@ export default function Routes() {
     }
   };
 
-  const getRiskColor = (score) => {
-    if (score > 70) return "#dc3545";
-    if (score > 40) return "#fd7e14";
-    return "#28a745";
-  };
-
-  const getRiskLabel = (score) => {
-    if (score > 70) return "High";
-    if (score > 40) return "Medium";
-    return "Low";
-  };
-
-  const tableStyle = {
-    width: "100%",
-    borderCollapse: "collapse",
-    background: "white",
-    borderRadius: "8px",
-    overflow: "hidden",
-    boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
-  };
-
-  const thStyle = {
-    padding: "12px 16px",
-    textAlign: "left",
-    backgroundColor: "#f8f9fa",
-    borderBottom: "1px solid #ddd",
-  };
-
-  const tdStyle = {
-    padding: "12px 16px",
-    borderBottom: "1px solid #eee",
-  };
-
-  if (loading) return <Layout><div style={{ padding: "20px" }}>Loading...</div></Layout>;
+  if (loading) return <Layout><div style={{ padding: "20px" }}>Loading routes...</div></Layout>;
 
   return (
     <Layout>
-      <div>
-        <h1 style={{ marginBottom: "20px" }}>Routes</h1>
+      <div style={{ padding: "20px" }}>
+        <h1 style={{ marginBottom: "30px" }}>Routes</h1>
         
-        <form onSubmit={addRoute} style={{ display: "flex", gap: "10px", marginBottom: "20px", flexWrap: "wrap" }}>
+        <form onSubmit={addRoute} style={{ display: "flex", gap: "10px", marginBottom: "30px", flexWrap: "wrap" }}>
           <input
             type="text"
             placeholder="Origin"
             value={form.origin}
             onChange={(e) => setForm({ ...form, origin: e.target.value })}
-            style={{ flex: 1, padding: "10px", border: "1px solid #ddd", borderRadius: "6px" }}
+            style={{ flex: 1, padding: "12px", border: "1px solid #ddd", borderRadius: "6px" }}
             required
           />
           <input
@@ -104,20 +83,20 @@ export default function Routes() {
             placeholder="Destination"
             value={form.destination}
             onChange={(e) => setForm({ ...form, destination: e.target.value })}
-            style={{ flex: 1, padding: "10px", border: "1px solid #ddd", borderRadius: "6px" }}
+            style={{ flex: 1, padding: "12px", border: "1px solid #ddd", borderRadius: "6px" }}
             required
           />
           <select
             value={form.driverId}
             onChange={(e) => setForm({ ...form, driverId: e.target.value })}
-            style={{ padding: "10px", border: "1px solid #ddd", borderRadius: "6px" }}
+            style={{ padding: "12px", border: "1px solid #ddd", borderRadius: "6px" }}
             required
           >
             <option value="">Select Driver</option>
             {drivers.map(d => <option key={d.id} value={d.id}>{d.name}</option>)}
           </select>
           <button type="submit" style={{
-            padding: "10px 20px",
+            padding: "12px 24px",
             backgroundColor: "#0d6efd",
             color: "white",
             border: "none",
@@ -126,34 +105,38 @@ export default function Routes() {
           }}>Add Route</button>
         </form>
         
-        {error && <div style={{ backgroundColor: "#fee", color: "#c00", padding: "10px", borderRadius: "6px", marginBottom: "20px" }}>{error}</div>}
+        {error && <div style={{ backgroundColor: "#fee", color: "#c00", padding: "12px", borderRadius: "6px", marginBottom: "20px" }}>{error}</div>}
         
-        <table style={tableStyle}>
+        <table style={{
+          width: "100%",
+          background: "white",
+          borderRadius: "10px",
+          overflow: "hidden",
+          boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
+        }}>
           <thead>
-            <tr>
-              <th style={thStyle}>Origin</th>
-              <th style={thStyle}>Destination</th>
-              <th style={thStyle}>Driver</th>
-              <th style={thStyle}>Risk Score</th>
-              <th style={thStyle}>Risk Level</th>
+            <tr style={{ background: "#f8f9fa" }}>
+              <th style={{ textAlign: "left", padding: "12px", fontWeight: "600" }}>Origin</th>
+              <th style={{ textAlign: "left", padding: "12px", fontWeight: "600" }}>Destination</th>
+              <th style={{ textAlign: "left", padding: "12px", fontWeight: "600" }}>Driver</th>
+              <th style={{ textAlign: "left", padding: "12px", fontWeight: "600" }}>Risk Score</th>
             </tr>
           </thead>
           <tbody>
             {routes.map((route) => (
-              <tr key={route.id}>
-                <td style={tdStyle}>{route.origin}</td>
-                <td style={tdStyle}>{route.destination}</td>
-                <td style={tdStyle}>{route.driver_name || "N/A"}</td>
-                <td style={tdStyle}>{route.risk_score}</td>
-                <td style={{ ...tdStyle, color: getRiskColor(route.risk_score), fontWeight: "bold" }}>
-                  {getRiskLabel(route.risk_score)}
+              <tr key={route.id} style={{ borderTop: "1px solid #eee" }}>
+                <td style={{ padding: "12px" }}>{route.origin}</td>
+                <td style={{ padding: "12px" }}>{route.destination}</td>
+                <td style={{ padding: "12px" }}>{route.driver_name || "N/A"}</td>
+                <td style={{ padding: "12px", color: getRiskColor(route.risk_score), fontWeight: "bold" }}>
+                  {route.risk_score} ({getRiskLabel(route.risk_score)})
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
         
-        {routes.length === 0 && <p style={{ textAlign: "center", marginTop: "20px" }}>No routes yet. Add your first route above.</p>}
+        {routes.length === 0 && <p style={{ textAlign: "center", marginTop: "30px" }}>No routes yet. Add your first route above.</p>}
       </div>
     </Layout>
   );

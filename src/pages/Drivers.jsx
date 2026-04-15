@@ -15,7 +15,7 @@ export default function Drivers() {
   const fetchDrivers = async () => {
     try {
       const res = await API.get("/drivers");
-      setDrivers(res.data.data);
+      setDrivers(res.data.data || []);
     } catch (err) {
       setError("Failed to load drivers");
     } finally {
@@ -35,46 +35,25 @@ export default function Drivers() {
     }
   };
 
-  const tableStyle = {
-    width: "100%",
-    borderCollapse: "collapse",
-    background: "white",
-    borderRadius: "8px",
-    overflow: "hidden",
-    boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
-  };
-
-  const thStyle = {
-    padding: "12px 16px",
-    textAlign: "left",
-    backgroundColor: "#f8f9fa",
-    borderBottom: "1px solid #ddd",
-  };
-
-  const tdStyle = {
-    padding: "12px 16px",
-    borderBottom: "1px solid #eee",
-  };
-
-  if (loading) return <Layout><div style={{ padding: "20px" }}>Loading...</div></Layout>;
+  if (loading) return <Layout><div style={{ padding: "20px" }}>Loading drivers...</div></Layout>;
   if (error) return <Layout><div style={{ padding: "20px", color: "red" }}>{error}</div></Layout>;
 
   return (
     <Layout>
-      <div>
-        <h1 style={{ marginBottom: "20px" }}>Drivers</h1>
+      <div style={{ padding: "20px" }}>
+        <h1 style={{ marginBottom: "30px" }}>Drivers</h1>
         
-        <form onSubmit={addDriver} style={{ display: "flex", gap: "10px", marginBottom: "20px" }}>
+        <form onSubmit={addDriver} style={{ display: "flex", gap: "10px", marginBottom: "30px" }}>
           <input
             type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
             placeholder="Driver name"
-            style={{ flex: 1, padding: "10px", border: "1px solid #ddd", borderRadius: "6px" }}
+            style={{ flex: 1, padding: "12px", border: "1px solid #ddd", borderRadius: "6px" }}
             required
           />
           <button type="submit" style={{
-            padding: "10px 20px",
+            padding: "12px 24px",
             backgroundColor: "#0d6efd",
             color: "white",
             border: "none",
@@ -83,26 +62,32 @@ export default function Drivers() {
           }}>Add Driver</button>
         </form>
         
-        <table style={tableStyle}>
+        <table style={{
+          width: "100%",
+          background: "white",
+          borderRadius: "10px",
+          overflow: "hidden",
+          boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
+        }}>
           <thead>
-            <tr>
-              <th style={thStyle}>ID</th>
-              <th style={thStyle}>Name</th>
-              <th style={thStyle}>Created At</th>
+            <tr style={{ background: "#f8f9fa" }}>
+              <th style={{ textAlign: "left", padding: "12px", fontWeight: "600" }}>ID</th>
+              <th style={{ textAlign: "left", padding: "12px", fontWeight: "600" }}>Name</th>
+              <th style={{ textAlign: "left", padding: "12px", fontWeight: "600" }}>Created At</th>
             </tr>
           </thead>
           <tbody>
-            {drivers.map((driver) => (
-              <tr key={driver.id}>
-                <td style={tdStyle}>{driver.id}</td>
-                <td style={tdStyle}>{driver.name}</td>
-                <td style={tdStyle}>{new Date(driver.created_at).toLocaleDateString()}</td>
+            {drivers.map((driver, index) => (
+              <tr key={driver.id} style={{ borderTop: "1px solid #eee" }}>
+                <td style={{ padding: "12px" }}>{driver.id}</td>
+                <td style={{ padding: "12px" }}>{driver.name}</td>
+                <td style={{ padding: "12px" }}>{new Date(driver.created_at).toLocaleDateString()}</td>
               </tr>
             ))}
           </tbody>
         </table>
         
-        {drivers.length === 0 && <p style={{ textAlign: "center", marginTop: "20px" }}>No drivers yet. Add your first driver above.</p>}
+        {drivers.length === 0 && <p style={{ textAlign: "center", marginTop: "30px" }}>No drivers yet. Add your first driver above.</p>}
       </div>
     </Layout>
   );
