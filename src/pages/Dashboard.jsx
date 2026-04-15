@@ -36,25 +36,28 @@ export default function Dashboard() {
   return (
     <div style={{ padding: "2rem" }}>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "2rem" }}>
-        <h1 style={{ color: "#1a1a2e" }}>Dashboard</h1>
+        {/* Dashboard title - now dark and visible */}
+        <h1 style={{ 
+          color: "#1e1e2f",     // Dark charcoal/navy - very visible
+          fontSize: "2rem",
+          fontWeight: "bold",
+          margin: 0
+        }}>Dashboard</h1>
         <button onClick={handleLogout} style={styles.logoutBtn}>Logout</button>
       </div>
       
       {/* Cards container - side by side horizontally */}
       <div style={styles.statsContainer}>
-        {/* Card 1: Total Drivers */}
         <div style={styles.card}>
           <h3 style={styles.cardLabel}>Total Drivers</h3>
           <p style={styles.cardValue}>{stats.total_drivers}</p>
         </div>
         
-        {/* Card 2: Total Routes */}
         <div style={styles.card}>
           <h3 style={styles.cardLabel}>Total Routes</h3>
           <p style={styles.cardValue}>{stats.total_routes}</p>
         </div>
         
-        {/* Card 3: Avg Risk Score */}
         <div style={styles.card}>
           <h3 style={styles.cardLabel}>Avg Risk Score</h3>
           <p style={styles.cardValue}>{stats.avg_risk_score}</p>
@@ -75,11 +78,11 @@ const styles = {
     fontSize: "1rem",
   },
   statsContainer: {
-    display: "flex",           // Forces horizontal layout
-    flexDirection: "row",     // Explicitly horizontal
-    justifyContent: "center", // Centers cards
-    gap: "1.5rem",           // Space between cards
-    flexWrap: "wrap",        // Wraps on mobile (responsive)
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center",
+    gap: "1.5rem",
+    flexWrap: "wrap",
     marginTop: "1rem",
   },
   card: {
@@ -88,9 +91,9 @@ const styles = {
     borderRadius: "12px",
     boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
     textAlign: "center",
-    minWidth: "180px",        // Ensures cards have consistent width
-    flex: 1,                  // Makes cards equal width
-    maxWidth: "250px",        // Prevents cards from being too wide
+    minWidth: "180px",
+    flex: 1,
+    maxWidth: "250px",
   },
   cardLabel: {
     fontSize: "1rem",
