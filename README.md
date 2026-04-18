@@ -120,7 +120,7 @@ https://dife-saas-api-production.up.railway.app/api
 
 You can log in using:
 
-* Email: `test@example.com`
+* Email: `dashboard@test.com`
 * Password: `123456`
 
 Or register via the API.
